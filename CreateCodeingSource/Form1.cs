@@ -67,14 +67,17 @@ namespace CreateCodeingSource
 
         private void OutputBt_Click(object sender, EventArgs e)
         {
+            /////////////////////////////////////////////////
             //インスタンス生成
+            /////////////////////////////////////////////////
             string insBase = @"var instance = new Object()" + Environment.NewLine + "{{" + Environment.NewLine + "{0} " + Environment.NewLine + "}}"; ;
             string insPart = "";
 
             foreach (var x in validationList.Select((item, index) => new { item, index }))
             {
                 string formatType;
-                switch (x.item.type)
+
+                switch (x.item.type.Replace("?", ""))
                 {
                     case "String":
                     case "string":
@@ -101,7 +104,9 @@ namespace CreateCodeingSource
             }
             instanceTxt.Text = string.Format(insBase, insPart);
 
+            /////////////////////////////////////////////////
             //バリデーションコード出力
+            /////////////////////////////////////////////////
             string valBase = @"switch (columnName){{" + Environment.NewLine + "{0} " + Environment.NewLine + "default:" + Environment.NewLine + "}}" + Environment.NewLine;
             string valPartBase = @"case ""{0} "":";
             string valPart = "";
@@ -123,14 +128,20 @@ namespace CreateCodeingSource
                 }
 
                 //文字列長ありの場合
-                if(x.item.length != null)
+                if (x.item.length != null)
                 {
                     valPart = valPart + Environment.NewLine + @"";
                 }
 
                 //最大
+                if (x.item.maxAmount != null)
+                {
+                }
 
                 //最小
+                if (x.item.minAmount != null)
+                {
+                }
 
                 //半角数字
                 if (x.item.hankakuSuu)
